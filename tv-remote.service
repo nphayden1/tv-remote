@@ -1,0 +1,14 @@
+[Unit]
+Description=TV Remote Flask Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/share/tv-remote/
+
+ExecStart=/usr/bin/python3 app.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
