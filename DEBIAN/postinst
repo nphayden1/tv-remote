@@ -1,0 +1,4 @@
+systemctl --user daemon-reload
+systemctl --user enable tv-remote.service
+systemctl --user start tv-remote.service
+sudo ufw allow 5001
