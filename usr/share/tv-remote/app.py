@@ -130,7 +130,8 @@ def get_videos(handle):
 @app.route('/volume', methods=['POST'])
 def volume():
     level = request.form.get('level', '70')
-    subprocess.run(["amixer", "sset", "Master", f"{level}%"])
+    # Use the script so it correctly targets Card 0
+    subprocess.run([SCRIPT_PATH, "volume", level])
     return "OK"
 
 @app.route('/run', methods=['POST'])

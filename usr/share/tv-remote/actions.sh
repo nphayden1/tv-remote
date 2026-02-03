@@ -13,5 +13,7 @@ case "$1" in
         ;;
     "toggle")
         xdotool key space
+    "volume")
+        amixer -c 0 sset Master "${2}%" unmute || amixer -c 0 sset PCM "${2}%" unmute
         ;;
 esac
