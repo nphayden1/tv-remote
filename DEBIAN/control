@@ -1,0 +1,10 @@
+Package: tv-remote
+Version: 1.1.0
+Architecture: amd64
+Maintainer: Nathan Hayden <nphayden1@gmail.com>
+Depends: python3, python3-flask, xdotool, alsa-utils
+Section: utils
+Priority: optional
+Description: A simple TV remote Webpage
+ Operates on the local ip of the host device on port 5001
+ Can be accessed by going to 192.168.xx.xxx:5001 in a browser.
