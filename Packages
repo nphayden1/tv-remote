@@ -1,0 +1,16 @@
+Package: tv-remote
+Version: 1.1.0
+Architecture: amd64
+Maintainer: Nathan Hayden <nphayden1@gmail.com>
+Depends: python3, python3-flask, xdotool, alsa-utils
+Filename: ./TV-Remote.deb
+Size: 3856
+MD5sum: c34439f345f10370f235096efc7c932e
+SHA1: 009ad1334a64e410dddc751f515aec37970e9d0f
+SHA256: 4053eae4f0d6d5eb3fb86b5c6da5ef0a75de3fcd25479073a54b4b5ee0d9a01b
+Section: utils
+Priority: optional
+Description: A simple TV remote Webpage
+ Operates on the local ip of the host device on port 5001
+ Can be accessed by going to 192.168.xx.xxx:5001 in a browser.
+
