@@ -4,10 +4,10 @@ Architecture: amd64
 Maintainer: Nathan Hayden <nphayden1@gmail.com>
 Depends: python3, python3-flask, xdotool, alsa-utils
 Filename: ./TV-Remote.deb
-Size: 3936
-MD5sum: b7398558bf356a516b5a5acc276d9f4c
-SHA1: c4678f914419f08917144591f785d7a5bc6e5d14
-SHA256: 360e6a28e5e7008291a1f005b99a961407ca93767fcfea7d60d25901e2ac9ff3
+Size: 3964
+MD5sum: 771a2d170a7b5ff2d9952ed7049f3b3a
+SHA1: 64886734f712e6eee48356ed459bfa69815594c9
+SHA256: 39a3b87df73d8c8f9c49b678a2e72b682cd4e8f81a5248842bc6057ebecb8a3a
 Section: utils
 Priority: optional
 Description: A simple TV remote Webpage
