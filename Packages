@@ -1,13 +1,13 @@
 Package: tv-remote
-Version: 1.1.4
+Version: 1.2.1
 Architecture: amd64
 Maintainer: Nathan Hayden <nphayden1@gmail.com>
-Depends: python3, python3-flask, xdotool, alsa-utils
+Depends: python3, python3-flask, xdotool, alsa-utils, pulseaudio-utils
 Filename: ./TV-Remote.deb
-Size: 3964
-MD5sum: bf01a71951a9bcefeab03dd860ddbb52
-SHA1: 5120ebacfe1025520e2918fcc9eb8dd2b5725ba4
-SHA256: a033c229e20447dbafef4b9bf39719ecf30364314a293f3b24324ab842e4284e
+Size: 3968
+MD5sum: 6655c8dfc54fbd1b5792196e115b553a
+SHA1: 06cf8eb32015e81e995a66632cd805dfce39d400
+SHA256: 4e00b0d38b1876b4c68bc0b66ff19e5500775c08391549035c4ce6e78ec28365
 Section: utils
 Priority: optional
 Description: A simple TV remote Webpage
