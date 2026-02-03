@@ -130,7 +130,7 @@ def get_videos(handle):
 @app.route('/volume', methods=['POST'])
 def volume():
     level = request.form.get('level', '70')
-    # Use SCRIPT_PATH so it runs through actions.sh
+    # This ensures it uses the 'amixer -c 0' logic we put in actions.sh
     subprocess.run([SCRIPT_PATH, "volume", level])
     return "OK"
 

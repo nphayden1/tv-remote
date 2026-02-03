@@ -15,7 +15,7 @@ case "$1" in
         xdotool key space
         ;;
     "volume")
-        # This targets the default software mixer which controls the actual output level
-        amixer sset Master "${2}%" unmute
+        # This ignores hardware names and targets the system "Sink"
+        pactl set-sink-volume @DEFAULT_SINK@ "${2}%"
         ;;
 esac
