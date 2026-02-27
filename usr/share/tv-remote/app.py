@@ -91,6 +91,8 @@ HTML_TEMPLATE = """
         <select id="videoSelect"><option value="">-- No Videos --</option></select>
         <button class="btn-go" onclick="runAction('open_video')">🚀 LAUNCH ON TV</button>
         <button class="btn-toggle" onclick="runAction('full')">Toggle Fullscreen</button>
+        <input type="text" id="altvid" name="altvid">    Alternative Video</input>
+        <button class="btn-alt" onclick="runAlt('alt')">Launch Alternative Video</button>
     </div>
 
     <script>
@@ -113,6 +115,14 @@ HTML_TEMPLATE = """
 
         function runAction(act) {
             var url = document.getElementById('videoSelect').value;
+            var fd = new FormData();
+            fd.append('action', act);
+            fd.append('url', url);
+            fetch('/run', { method: 'POST', body: fd });
+        }
+
+        function runAlt(act) {
+            var url = document.getElementById('altvid').value;
             var fd = new FormData();
             fd.append('action', act);
             fd.append('url', url);
