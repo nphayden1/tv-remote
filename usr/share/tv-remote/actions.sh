@@ -28,4 +28,7 @@ case "$1" in
     "fast")
 	xdotool key Right
 	;;
+	"full")
+	xdotool key f
+	;;
 esac
