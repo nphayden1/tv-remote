@@ -90,6 +90,7 @@ HTML_TEMPLATE = """
         </select>
         <select id="videoSelect"><option value="">-- No Videos --</option></select>
         <button class="btn-go" onclick="runAction('open_video')">🚀 LAUNCH ON TV</button>
+        <button class="btn-toggle" onclick="runAction('full')">Toggle Fullscreen</button>
     </div>
 
     <script>
