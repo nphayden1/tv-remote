@@ -11,7 +11,7 @@ case "$1" in
 	echo 1 | sudo tee /sys/bus/pci/rescan
 	systemctl --user restart pipewire wireplumber
 	resettv
-        /snap/bin/freetube --disable-gpu --url "$2" > /dev/null 2>&1 &
+        freetube --disable-gpu --url "$2" > /dev/null 2>&1 &
         sleep 5
         xdotool key f
         ;;
