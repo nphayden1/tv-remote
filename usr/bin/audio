@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# 1. Isolate the Sinks section and find the line with the asterisk
+# Then, use grep to pull ONLY the numbers from that specific line
+DEFAULT_ID=$(wpctl status | sed -n '/Sinks:/,/Sink endpoints:/p' | grep '*' | grep -oE '[0-9]+' | head -n 1)
+
+if [ -z "$DEFAULT_ID" ] || ! [[ "$DEFAULT_ID" =~ ^[0-9]+$ ]]; then
+    echo "Error: Could not find a valid numeric Sink ID with an asterisk."
+    exit 1
+fi
+
+echo "Found active sink ID: $DEFAULT_ID"
+
+# 2. Explicitly set it as the default
+wpctl set-default "$DEFAULT_ID"
+
+# 3. Force Unmute and set volume to 100% (1.0)
+wpctl set-mute "$DEFAULT_ID" 0
+wpctl set-volume "$DEFAULT_ID" 1.0
+
+echo "Default audio successfully set to ID $DEFAULT_ID"
