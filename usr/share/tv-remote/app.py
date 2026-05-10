@@ -74,11 +74,13 @@ HTML_TEMPLATE = """
     <div class="container">
         <h1>📺 TV Remote</h1>
         <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
-        <button class="btn-pause" onclick="runAction('toggle')">⏯️ PLAY / PAUSE</button>
+        
         <div style="display: flex; gap: 10px; width: 100%; background: transparent; padding: 0;">
             <button class="btn-rewind" onclick="runAction('rewind')" style="flex: 1; padding: 12px; background-color: #FFBF00; color: black; border: none; border-radius: 5px; font-weight: bold;">⏪</button>
+            <button class="btn-pause" onclick="runAction('toggle')" style="flex: 1; padding: 12px; background-color: green;">⏯️</button>
             <button class="btn-fast-forward" onclick="runAction('fast')" style="flex: 1; padding: 12px; background-color: #FFBF00; color: black; border: none; border-radius: 5px; font-weight: bold;">⏩</button>
         </div>
+        <button class="btn-toggle" onclick="runAction('full')" style="flex: 1; padding: 12px; background-color: blue; color: white; font-weight:bold">Toggle Fullscreen</button>
         <div class="slider-container">
             <label>🔊 VOLUME</label>
             <input type="range" id="volumeSlider" min="0" max="100" value="70" oninput="setVolume(this.value)">
@@ -90,10 +92,10 @@ HTML_TEMPLATE = """
             {% endfor %}
         </select>
         <select id="videoSelect"><option value="">-- No Videos --</option></select>
-        <button class="btn-go" onclick="runAction('open_video')">🚀 LAUNCH ON TV</button>
-        <button class="btn-toggle" onclick="runAction('full')">Toggle Fullscreen</button>
+        <button class="btn-go" onclick="runAction('open_video')">LAUNCH</button>
+        
         <input type="text" id="altvid" name="altvid">    Alternative Video</input>
-        <button class="btn-alt" onclick="runAlt('open_video')">Launch Alternative Video</button>
+        <button class="btn-alt" style="background-color: #501e8e; color: white; font-weight: bold;" onclick="runAlt('open_video')">Launch Alternative Video</button>
     </div>
 
     <script>
