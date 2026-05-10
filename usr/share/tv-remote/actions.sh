@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # --- Configuration ---
-TARGET_USER="n"
+set -x
+TARGET_USER="tards"
 USER_ID=1000
 export DISPLAY=:0
 
@@ -22,44 +23,28 @@ audio
 LOCKFILE="/tmp/freetube_launch.lock"
 
 case "$1" in
-    "open_video")
-        # Prevent overlapping launch attempts
-        if [ -f "$LOCKFILE" ]; then exit 0; fi
-        touch "$LOCKFILE"
+    "open_video" | "alt")
+       if [ -f "$LOCKFILE" ]; then exit 0; fi
+       touch "$LOCKFILE"
+       pkill -u tards freetube || true
+       sleep 1
 
-        # Kill existing instances to start fresh
-        pkill -u $USER_ID freetube || true
-        sleep 1
-        
-        # Launch FreeTube with audio and stability flags
-        # Removed --disable-dbus to allow it to find PulseAudio
-        /usr/bin/freetube --no-sandbox \
-            --disable-gpu \
-            --disable-software-rasterizer \
-            --disable-gpu-compositing \
-            --disable-features=WebBluetooth,WebUSB,Vulkan,HardwareMediaKeyHandling \
-            --disable-speech-api \
-            --ozone-platform=x11 \
-            "$2" > /dev/null 2>&1 &
-        
-        # Wait for the window to draw (HP ProDesk can be slow)
-        sleep 10
-        
-        # Force Fullscreen
-        WID=$(xdotool search --name "FreeTube" | head -n 1)
-        if [ -n "$WID" ]; then
-            xdotool windowactivate --sync "$WID" key f
-        else
-            xdotool key f
-        fi
-        
-        # Ensure the stream isn't muted (Fixes the silent audio)
-        sleep 2
-        pactl list sink-inputs | grep Index | cut -d# -f2 | xargs -I{} pactl set-sink-input-mute {} false
-        pactl list sink-inputs | grep Index | cut -d# -f2 | xargs -I{} pactl set-sink-input-volume {} 100%
-        
-        rm -f "$LOCKFILE"
-        ;;
+       # Launch FreeTube
+       /usr/bin/freetube --no-sandbox "$2" > /dev/null 2>&1 &
+       
+       # Wait up to 15 seconds for the window to appear
+       for i in {1..15}; do
+           WID=$(xdotool search --onlyvisible --name "FreeTube" | head -n 1)
+           if [ -n "$WID" ]; then
+               xdotool windowactivate --sync "$WID"
+               sleep 1
+               xdotool key f
+               break
+           fi
+           sleep 1
+       done
+       rm -f "$LOCKFILE"
+       ;;
 
     "toggle")
         xdotool key space

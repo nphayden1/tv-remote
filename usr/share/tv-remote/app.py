@@ -1,3 +1,4 @@
+import json
 import os
 import subprocess
 import re
@@ -92,7 +93,7 @@ HTML_TEMPLATE = """
         <button class="btn-go" onclick="runAction('open_video')">🚀 LAUNCH ON TV</button>
         <button class="btn-toggle" onclick="runAction('full')">Toggle Fullscreen</button>
         <input type="text" id="altvid" name="altvid">    Alternative Video</input>
-        <button class="btn-alt" onclick="runAlt('alt')">Launch Alternative Video</button>
+        <button class="btn-alt" onclick="runAlt('open_video')">Launch Alternative Video</button>
     </div>
 
     <script>
@@ -158,58 +159,39 @@ def index():
     return render_template_string(HTML_TEMPLATE, channels=dict(sorted(CHANNELS.items())))
 
 
+
 @app.route('/get_videos/<handle>')
-
 def get_videos(handle):
-
     try:
-
         url = f"https://www.youtube.com/{handle}/videos"
-
-        # Using curl to fetch the page with a browser identity
-
-        cmd = ["curl", "-sL", "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", url]
-
+        # --get-id and --get-title get exactly what we need without downloading anything
+        # --flat-playlist makes it fast (doesn't scan every video's metadata)
+        cmd = [
+            "/usr/local/bin/yt-dlp", 
+            "--flat-playlist", 
+            "--print", "%(id)s|||%(title)s", 
+            "--playlist-end", "10", 
+            url
+        ]
         result = subprocess.run(cmd, capture_output=True, text=True)
-
         
-
-        # This refined regex looks for the specific "videoRenderer" JSON block 
-
-        # that identifies actual video uploads in the grid.
-
-        pattern = r'videoRenderer":\{"videoId":"(.*?)".*?"title":\{"runs":\[\{"text":"(.*?)"\}\]'
-
-        matches = re.findall(pattern, result.stdout)
-
-        
-
         videos = []
-
-        seen = set()
-
-        for vid_id, title in matches:
-
-            if vid_id not in seen:
-
-                # Basic cleanup of common HTML/JSON entities
-
-                title = title.replace('\\u0026', '&').replace('\\"', '"')
-
-                videos.append({"title": title, "url": f"https://www.youtube.com/watch?v={vid_id}"})
-
-                seen.add(vid_id)
-
+        for line in result.stdout.strip().split('\n'):
+            if "|||" in line:
+                vid_id, title = line.split("|||", 1)
+                videos.append({
+                    "title": title, 
+                    "url": f"https://www.youtube.com/watch?v={vid_id}"
+                })
         
-
-        return jsonify(videos[:10])
-
-    except:
-
+        print(f"DEBUG: yt-dlp found {len(videos)} videos for {handle}")
+        return jsonify(videos)
+    except Exception as e:
+        print(f"yt-dlp error: {e}")
         return jsonify([])
-
-
 # Add this below your routes in app.py
+
+
 @app.route('/volume', methods=['POST'])
 def volume():
     level = request.form.get('level', '70')
